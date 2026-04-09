@@ -1,49 +1,73 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '../types';
 
+// Sepet öğesi - hangi ürün, hangi renk, kaç adet
 export interface CartItem {
   product: Product;
   quantity: number;
+  selectedColor: string | null;
+  itemImage: string;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: string) => void;
+  addToCart: (product: Product, color?: string | null) => void;
+  removeFromCart: (productId: string, color?: string | null) => void;
   cartCount: number;
   totalPrice: number;
 }
 
-// sepet contexti oluşturduk
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  // sepetteki ürünleri burda tutuyorum
-  const [cart, setCart] = useState<CartItem[]>([]);
+  // Sayfa yüklenince localStorage'dan sepeti oku, yoksa boş başlat
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('optica_cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return []; // JSON parse hatası olursa boş başlat
+    }
+  });
 
-  const addToCart = (product: Product) => {
+  // Cart her değiştiğinde localStorage'a kaydet
+  useEffect(() => {
+    localStorage.setItem('optica_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  const addToCart = (product: Product, color?: string | null) => {
+    // Seçilen renge ait ilk fotoğrafı bul, yoksa ürünün normal fotoğrafını kullan
+    const selectedColor = color ?? null;
+    const itemImage = (selectedColor && product.colorImages?.[selectedColor]?.[0])
+      || product.imageUrl;
+
     setCart((prev) => {
-      // eger urun zaten sepette varsa bi daha eklemek yerine adedini arttırıyoruz
-      const existing = prev.find((item) => item.product.id === product.id);
+      // Aynı ürün + aynı renk kombinasyonu zaten sepette mi? varsa adedi arttır
+      const existing = prev.find(
+        (item) => item.product.id === product.id && item.selectedColor === selectedColor
+      );
       if (existing) {
         return prev.map((item) =>
-          item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.product.id === product.id && item.selectedColor === selectedColor
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       }
-      // hic yoksa 1 tane olarark diziye atıyo
-      return [...prev, { product, quantity: 1 }];
+      // Yoksa yeni kayıt olarak ekle
+      return [...prev, { product, quantity: 1, selectedColor, itemImage }];
     });
   };
 
-  const removeFromCart = (productId: string) => {
-    // id si uymayanları filtrele arrayde kalsın, uyanı atıyo sepetten
-    setCart((prev) => prev.filter((item) => item.product.id !== productId));
+  // Renk bilgisi ile birlikte sil - aynı ürünün farklı renkleri ayrı satır olarak durabilir
+  const removeFromCart = (productId: string, color?: string | null) => {
+    setCart((prev) =>
+      prev.filter(
+        (item) => !(item.product.id === productId && item.selectedColor === (color ?? null))
+      )
+    );
   };
 
-  // sepet ikonunda gözüksün diye toplam ürün sayisini heseplatıyoruz
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-  
-  // odeme ksımı icin fiyar carpi adet seklinde siparis totalgini cıkarıyo asagda gosterck
   const totalPrice = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
 
   return (
@@ -56,7 +80,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart hooku CartProvider icinde olmak zorunda!!'); // disarida falan kullanilirsa patlar, hoca gormez umarim :)
+    throw new Error('useCart hooku CartProvider icinde olmak zorunda!!');
   }
   return context;
 };

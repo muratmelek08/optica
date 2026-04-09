@@ -1,6 +1,7 @@
-import { Box, Typography, Button, Grid, Paper, Container } from '@mui/material';
+import { Box, Typography, Button, Grid, Container } from '@mui/material';
 import { mockProducts } from '../data/mockProducts';
 import ProductCard from '../components/ProductCard';
+import HeroBanner from '../components/HeroBanner';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
@@ -13,9 +14,15 @@ const Home = () => {
   const newArrivals = mockProducts.slice(8, 12);
 
   return (
-    <Box sx={{ pb: 8, pt: 8 }}>
+    <Box sx={{ pb: 8, pt: 4 }}>
+
+      {/* Hero Banner - marka kampanya slaydı */}
+      <Container>
+        <HeroBanner />
+      </Container>
 
       {/* Öne Çıkan Ürünler Vitrini */}
+
       <Container>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
           <Typography variant="h4" component="h2" sx={{ fontWeight: 900 }}>

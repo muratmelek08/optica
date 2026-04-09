@@ -7,21 +7,25 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
 import StarIcon from '@mui/icons-material/Star';
 import { useState, useEffect } from 'react';
+import { colorMap } from '../utils/colorMap';
 
 const ProductDetail = () => {
-  // url e ne geldiyse id olarak cekiyoz ornegin localhost/product/p1
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
-  // elimizdeki static datadan sadec o id li olani bulsun filtrelesn
   const product = mockProducts.find((p) => p.id === id);
 
-  // galeryde eger baska gozluge gierse onceki resimde kalmasın die. id degisince useState 0liyoruz  
   const [mainImageIndex, setMainImageIndex] = useState(0);
+  // Seçili renk state'i - başlangıçta ilk renk seçili olsun
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+
   useEffect(() => {
     setMainImageIndex(0);
-  }, [id]);
+    // Ürün değişince seçili rengi de sıfırla
+    setSelectedColor(product?.color?.[0] ?? null);
+  }, [id, product]);
+
 
   if (!product) {
     // hata verip patlamasin urun yoksa boyle bisey gostersin 
@@ -35,10 +39,13 @@ const ProductDetail = () => {
     );
   }
 
-  // resim dizisi yokdsa map lerken patlamasn diye ufak bi kontrol yptiım eger bostaysa 1 tne koysun
-  const galleryImages = product.images && product.images.length > 0
-    ? product.images
-    : [product.imageUrl];
+  // Renk seçiliyse o renge ait görseller, yoksa genel images dizisi
+  const galleryImages = (() => {
+    if (selectedColor && product.colorImages?.[selectedColor]) {
+      return product.colorImages[selectedColor];
+    }
+    return product.images && product.images.length > 0 ? product.images : [product.imageUrl];
+  })();
 
   return (
     <Box>
@@ -117,10 +124,54 @@ const ProductDetail = () => {
                 <Chip label={`Kullanım: ${product.gender}`} variant="outlined" />
               </Box>
 
-              {/* stok varsa yesil yziyo stoksuzsa kirmizi yazcak hoca buna dikkat ederdi bnce :)  */}
-              <Typography variant="body2" color={product.stock > 0 ? "success.main" : "error.main"} fontWeight="bold" sx={{ mb: 3 }}>
-                {product.stock > 0 ? `Stokta var (${product.stock} adet)` : 'Şuan Maleseaf Stokta yok'}
-              </Typography>
+              {/* Stok Durumu - renge özel stok varsa onu göster */}
+              {(() => {
+                const currentStock = (selectedColor && product.colorStock?.[selectedColor] !== undefined)
+                  ? product.colorStock[selectedColor]
+                  : product.stock;
+                return (
+                  <Typography variant="body2" color={currentStock > 0 ? "success.main" : "error.main"} fontWeight="bold" sx={{ mb: 2 }}>
+                    {currentStock > 0
+                      ? `Stokta var (${currentStock} adet${selectedColor ? ` — ${selectedColor}` : ''})`
+                      : `${selectedColor ? selectedColor + ' rengi' : 'Bu ürün'} şu an stokta yok`}
+                  </Typography>
+                );
+              })()}
+
+              {/* Renk Seçimi - colorImages varsa fotoğraf değiştirir */}
+              {product.color && product.color.length > 0 && (
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+                    Renk: <strong>{selectedColor ?? '—'}</strong>
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
+                    {product.color.map((c) => (
+                      <Box
+                        key={c}
+                        onClick={() => { setSelectedColor(c); setMainImageIndex(0); }}
+                        title={c}
+                        sx={{
+                          width: 32, height: 32,
+                          borderRadius: '50%',
+                          backgroundColor: colorMap[c] ?? '#ccc',
+                          cursor: 'pointer',
+                          border: selectedColor === c ? '3px solid #1A237E' : '2.5px solid rgba(0,0,0,0.1)',
+                          boxShadow: selectedColor === c ? '0 0 0 2px rgba(26,35,126,0.25)' : 'none',
+                          transition: 'all 0.2s ease',
+                          '&:hover': { transform: 'scale(1.2)' },
+                          ...(c === 'Şeffaf' && { background: 'linear-gradient(135deg, #ddd 25%, #fff 25%, #fff 50%, #ddd 50%, #ddd 75%, #fff 75%)', backgroundSize: '8px 8px' }),
+                        }}
+                      />
+                    ))}
+                  </Box>
+                  {/* Renk seçimine ait fotoğraf yoksa bilgi ver */}
+                  {selectedColor && !product.colorImages?.[selectedColor] && (
+                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
+                      Bu renk için özel fotoğraf yüklenmemiş.
+                    </Typography>
+                  )}
+                </Box>
+              )}
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -129,13 +180,16 @@ const ProductDetail = () => {
                 color="secondary"
                 size="large"
                 startIcon={<AddShoppingCartIcon />}
-                onClick={() => addToCart(product)}
-                disabled={product.stock === 0}
+                onClick={() => addToCart(product, selectedColor)} // Seçili rengi sepete aktar
+                disabled={(() => {
+                  const s = (selectedColor && product.colorStock?.[selectedColor] !== undefined)
+                    ? product.colorStock[selectedColor] : product.stock;
+                  return s === 0;
+                })()}
                 sx={{ py: 1.5, fontSize: '1.1rem' }}
               >
-                Sepete Ekle
+                {selectedColor ? `${selectedColor} — Sepete Ekle` : 'Sepete Ekle'}
               </Button>
-
             </Box>
           </Grid>
         </Grid>

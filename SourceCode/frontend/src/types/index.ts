@@ -1,20 +1,25 @@
-export type LensType = 'Polarize' | 'UV Korumalı' | 'Mavi Işık Filtreli' | 'Standart' | 'Antirefle';
+export type LensType = 'Polarize' | 'UV Korumalı' | 'Mavi Işık Filtreli' | 'Standart' | 'Antirefle' | 'Transparent';
 export type FrameMaterial = 'Metal' | 'Kemik' | 'Titanyum' | 'Plastik';
 export type Gender = 'Erkek' | 'Kadın' | 'Unisex' | 'Çocuk';
 
 export interface Product {
   id: string;
-  brand: string; // Marka
-  model: string; // Model
-  lensType: LensType; // Cam türü
-  frameMaterial: FrameMaterial; // Çerçeve materyali
-  gender: Gender; // Cinsiyet (Kategori)
-  price: number; // Fiyat
-  imageUrl: string; // Ana Resim URL'si
-  images?: string[]; // Profesyonel görünüm için çoklu/alternatif ürün görselleri
-  description: string; // Ürün Açıklaması
-  stock: number; // Stok durumu
-  isFeatured?: boolean; // Vitrin/Öne çıkan ürünü mü?
+  brand: string;
+  model: string;
+  lensType: LensType;
+  frameMaterial: FrameMaterial;
+  gender: Gender;
+  price: number;
+  imageUrl: string;
+  images?: string[];
+  // Her renk seçeneğine ait fotoğraflar
+  colorImages?: Record<string, string[]>;
+  // Her renk seçeneğine ait stok miktarı
+  colorStock?: Record<string, number>;
+  description: string;
+  stock: number; // Genel stok (renk ayrımı yoksa kullanılır)
+  isFeatured?: boolean;
+  color?: string[];
 }
 
 // Final projesi için eklenecek Kullanıcı Yorumları (Reviews) tipi
