@@ -29,11 +29,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         display: 'flex', 
         flexDirection: 'column', 
         height: '100%', 
-        position: 'relative', 
-        borderRadius: 3,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)', 
-        '&:hover': { boxShadow: '0 12px 24px rgba(0,0,0,0.15)', transform: 'translateY(-6px)', transition: 'all 0.4s ease' },
-        transition: 'all 0.4s ease'
+        position: 'relative',
+        // Hover ve transition ThemeProvider'dan geliyor, burada sadece layout stiller var
+        boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
       }}
     >
       {/* vitrin urunlerine yeni sezon chispi bassin dedik isFeatured sartina gore */}
@@ -55,9 +53,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             image={displayImage}
             alt={product.model}
             sx={{ 
-              objectFit: 'cover', 
-              transition: 'opacity 0.5s ease-in-out',
-              opacity: isHovered ? 0.9 : 1
+              objectFit: 'cover',
+              // hover olunca resim bir nebze karardıkça ürün daha çarpıcı görünüyor
+              transition: 'opacity 0.4s ease, transform 0.4s ease',
+              transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+              opacity: isHovered ? 0.92 : 1
             }}
           />
           {/* alt kısıödaki kucuk nokta ibareleri , coklu resmin oldugunu fln belii ediyo zengin gb dursn diyeekldeim */}

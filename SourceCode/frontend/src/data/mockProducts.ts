@@ -9,14 +9,14 @@ export const mockProducts: Product[] = [
     frameMaterial: "Kemik",
     gender: "Unisex",
     price: 14500,
-    imageUrl: "https://images.unsplash.com/photo-1625591342279-0524cb562477?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p1-versace-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1625591342279-0524cb562477?auto=format&fit=crop&q=80&w=800", 
-      "https://images.unsplash.com/photo-1589718424266-3d71e988229b?auto=format&fit=crop&q=80&w=800"  
+      "/images/p1-versace-1.jpg", // Temiz ürün çekimi
+      "/images/p1-versace-2.jpg"  // Lifestyle çekim - şık ve ağır duruş
     ],
     description: "Pop kültürünün ikonu, kalın çerçeveli efsanevi Medusa serisi.",
     stock: 12,
-    isFeatured: true 
+    isFeatured: true
   },
   {
     id: "p2",
@@ -26,10 +26,10 @@ export const mockProducts: Product[] = [
     frameMaterial: "Kemik",
     gender: "Kadın",
     price: 2100,
-    imageUrl: "https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p2-vogue-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&q=80&w=800", // Ürün
-      "https://images.unsplash.com/photo-1508296695146-257a814070b4?auto=format&fit=crop&q=80&w=800"  // Benzer alternatif çekim
+      "/images/p2-vogue-1.jpg", // Ürün
+      "/images/p2-vogue-2.jpg"  // Benzer alternatif çekim
     ],
     description: "Zarif, her yüze uyum sağlayan kedi gözü tasarım.",
     stock: 15,
@@ -43,10 +43,10 @@ export const mockProducts: Product[] = [
     frameMaterial: "Plastik",
     gender: "Erkek",
     price: 4200,
-    imageUrl: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p3-oakley-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800", // Ürün siyah
-      "https://images.unsplash.com/photo-1556306535-38febf6782e7?auto=format&fit=crop&q=80&w=800"  // Alternatif Siyah Gözlük Masada
+      "/images/p3-oakley-1.jpg", // Ürün siyah
+      "/images/p3-oakley-2.jpg"  // Alternatif çekim
     ],
     description: "Aktif yaşam tarzı için darbelere dayanıklı sportif çerçeve.",
     stock: 10,
@@ -60,10 +60,10 @@ export const mockProducts: Product[] = [
     frameMaterial: "Titanyum",
     gender: "Unisex",
     price: 8500,
-    imageUrl: "https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p4-tomford-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&q=80&w=800", // Ürün (Turuncu cam)
-      "https://images.unsplash.com/photo-1485230405346-71acb9518d9c?auto=format&fit=crop&q=80&w=800"  // Lifestyle turuncu cam takan manken
+      "/images/p4-tomford-1.jpg", // Ürün (Turuncu cam)
+      "/images/p4-tomford-2.jpg"  // Lifestyle turuncu cam takan manken
     ],
     description: "Hafif ve lüks titanyum malzeme, asil bir görünüm.",
     stock: 5,
@@ -77,10 +77,10 @@ export const mockProducts: Product[] = [
     frameMaterial: "Kemik",
     gender: "Kadın",
     price: 9200,
-    imageUrl: "https://images.unsplash.com/photo-1582142407894-ec85a1260a46?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p5-prada-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1582142407894-ec85a1260a46?auto=format&fit=crop&q=80&w=800", // Kalın şık siyah
-      "https://images.unsplash.com/photo-1589718424266-3d71e988229b?auto=format&fit=crop&q=80&w=800"  // Siyah takan manken
+      "/images/p5-prada-1.jpg", // Kalın şık siyah
+      "/images/p5-prada-2.jpg"  // Siyah takan manken
     ],
     description: "Kalın kemik çerçeveli ikonik ve gösterişli şıklık.",
     stock: 8,
@@ -94,10 +94,10 @@ export const mockProducts: Product[] = [
     frameMaterial: "Metal",
     gender: "Kadın",
     price: 18500,
-    imageUrl: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p6-dior-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=800"
+      "/images/p6-dior-1.jpg", // Dior So Real - zarif kadın çerçeve
+      "/images/p6-dior-2.jpg"  // Lifestyle - şık kadın
     ],
     description: "Geçmişin asil yüz hatlarını gelecekle harmanlayan aynalı ikonik tasarım.",
     stock: 7
@@ -105,12 +105,17 @@ export const mockProducts: Product[] = [
   {
     id: "p7",
     brand: "Osse",
-    model: "OS-1240",
+    model: "OS3560-02 56",
     lensType: "UV Korumalı",
     frameMaterial: "Metal",
     gender: "Kadın",
     price: 1300,
-    imageUrl: "https://images.unsplash.com/photo-1599839619722-39751411ea63?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p7-osse-1.jpg",
+    images: [
+      "/images/p7-osse-1.jpg",
+      "/images/p7-osse-2.jpg",
+      "/images/p7-osse-3.jpg"
+    ],
     description: "Günlük kullanım için ideal ince metal çerçeve.",
     stock: 30
   },
@@ -122,7 +127,7 @@ export const mockProducts: Product[] = [
     frameMaterial: "Plastik",
     gender: "Erkek",
     price: 1600,
-    imageUrl: "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p8-mustang.jpg",
     description: "Spor ve klasik giyime uygun, rahat kullanım.",
     stock: 45
   },
@@ -134,7 +139,7 @@ export const mockProducts: Product[] = [
     frameMaterial: "Kemik",
     gender: "Unisex",
     price: 2500,
-    imageUrl: "https://images.unsplash.com/photo-1483412468200-72182dbbc544?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p9-guess.jpg",
     description: "Uzun süre ekran karşısında kalanlar için özel ekran gözlüğü.",
     stock: 22
   },
@@ -146,7 +151,7 @@ export const mockProducts: Product[] = [
     frameMaterial: "Kemik",
     gender: "Kadın",
     price: 12500,
-    imageUrl: "https://images.unsplash.com/photo-1614715838608-dd527c46231d?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p10-gucci.jpg",
     description: "Oversize lüks tasarımıyla tüm dikkatleri üzerinize çekin.",
     stock: 3
   },
@@ -158,7 +163,7 @@ export const mockProducts: Product[] = [
     frameMaterial: "Metal",
     gender: "Erkek",
     price: 2800,
-    imageUrl: "https://images.unsplash.com/photo-1556306535-38febf6782e7?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p11-police.jpg",
     description: "Gündüz sürüşü ve aydınlık ortamlar için antirefle destekli.",
     stock: 18
   },
@@ -170,10 +175,11 @@ export const mockProducts: Product[] = [
     frameMaterial: "Kemik",
     gender: "Çocuk",
     price: 2400,
-    imageUrl: "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&q=80&w=800",
+    imageUrl: "/images/p12-rayban-1.jpg",
     images: [
-      "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1559825481-12a05cc00344?auto=format&fit=crop&q=80&w=800"
+      "/images/p12-rayban-1.jpg", // Ürün çekimi
+      "/images/p12-rayban-2.jpg",
+      "/images/p12-rayban-3.jpg"
     ],
     description: "Efsanevi Wayfarer modelinin çocuklar için özel tasarlanmış ergonomik versiyonu.",
     stock: 35

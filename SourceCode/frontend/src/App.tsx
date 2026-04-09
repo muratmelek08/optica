@@ -17,28 +17,56 @@ const theme = createTheme({
       main: '#ff6d00', // Seçimleri ve aksiyon butonlarını belli edecek premium turuncu
     },
     background: {
-      default: '#FAFAFA', // Çok hafif kırık beyaz arkaplan (gözü yormaz)
-      paper: '#FFFFFF',
+      default: '#f5f5f7', // Yumuşak açık gri - Apple.com tarzı (beyaz değil ama göz yormaz)
+      paper: '#FFFFFF',   // Kartlar tam beyaz kalıyor, sayfadan belirgin biçimde ayrılıyor
     },
   },
   typography: {
     fontFamily: '"Outfit", "Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     button: {
       textTransform: 'none',
-      fontWeight: 600, // Moda sitelerindeki net, kalın buton fontları
+      fontWeight: 600,
     },
+  },
+  shape: {
+    borderRadius: 12, // 0'dan 12'ye taşıdık - tüm MUI bileşenlerine otomatik uygulanır
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 0, // Kaba köşeler yerine köşeli keskin veya 0 radius elit görünür ama 4 kalsın, biz 0 yapalım
+          borderRadius: 8, // Butonlara orta yuvarlaklık - ne kaba köşe ne balon gibi
         },
         contained: {
           boxShadow: 'none',
+          '&:hover': { boxShadow: 'none' }
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          // Bu CSS ThemeProvider üzerinden tüm Card bileşenlerine uygulanıyor
+          borderRadius: 16, // Kartlara güzel yuvarlak köşe
+          transition: 'transform 0.35s ease, box-shadow 0.35s ease', // Yumuşak geçiş
           '&:hover': {
-            boxShadow: 'none',
+            transform: 'translateY(-6px)', // Hafifçe yukarı kalkma efekti
+            boxShadow: '0 20px 40px rgba(26, 35, 126, 0.15)', // Lacivert tonlu derin gölge
           }
+        }
+      }
+    },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          borderRadius: '16px 16px 0 0', // Resmin sadece üst köşeleri yuvarlak (alt dümdüz)
+        }
+      }
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 6, // Chip'ler çok yuvarlak olunca ucuz görünüyor, orta iyi
         }
       }
     },
@@ -49,9 +77,6 @@ const theme = createTheme({
         }
       }
     }
-  },
-  shape: {
-    borderRadius: 0, // Keskin modern hatlar (High-end fashion siteleri genelde böyle kullanır)
   },
 });
 
