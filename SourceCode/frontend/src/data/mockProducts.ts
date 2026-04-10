@@ -174,6 +174,28 @@ export const mockProducts: Product[] = [
   },
   {
     id: "p11",
+    brand: "Gucci",
+    model: "Style 819568 J0740 2323",
+    lensType: "UV Korumalı",
+    frameMaterial: "Kemik",
+    gender: "Kadın",
+    price: 19250,
+    imageUrl: "/images/p10-gucci-5.jpg",
+    images: ["/images/p10-gucci-5.jpg", "/images/p10-gucci-6.jpg", "/images/p10-gucci-7.jpg"],
+    colorImages: {
+      "Kahverengi": ["/images/p10-gucci-5.jpg", "/images/p10-gucci-6.jpg", "/images/p10-gucci-7.jpg"],
+      "Siyah": ["/images/p10-gucci-8.jpg", "/images/p10-gucci-9.jpg", "/images/p10-gucci-10.jpg"]
+    },
+    colorStock: {
+      "Kahverengi": 5,
+      "Siyah": 7
+    },
+    color: ["Kahverengi", "Siyah"],
+    description: "Cruise 2025 gözlük koleksiyonu, cesur bir silüeti ve imza motiflerini çağdaş bir tasarımla birleştiriyor. Mavi ve kırmızı saplı bu kare güneş gözlüklerinde Gucci logosu yer alıyor.",
+    stock: 12
+  },
+  {
+    id: "p11",
     brand: "Police",
     model: "SPL999",
     lensType: "Antirefle",

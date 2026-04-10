@@ -42,24 +42,31 @@ const bannerSlides = [
 
 const HeroBanner = () => {
   const navigate = useNavigate();
-  // Hangi slide aktif, bunu tutuyorum
   const [currentIndex, setCurrentIndex] = useState(0);
+  // Ok tuşuna basınca bu sayı artar → useEffect yeniden çalışır → interval sıfırlanır
+  const [resetKey, setResetKey] = useState(0);
 
-  // Sonraki slida geç
+  const resetTimer = () => setResetKey((k) => k + 1);
+
   const goNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % bannerSlides.length);
   }, []);
 
-  // Önceki slida geç
   const goPrev = () => {
     setCurrentIndex((prev) => (prev - 1 + bannerSlides.length) % bannerSlides.length);
+    resetTimer(); // Manuel geçişte timer'i sıfırla
   };
 
-  // Her 5 saniyede bir otomatik geçiş yapıyor
+  const goNextManual = () => {
+    goNext();
+    resetTimer(); // Manuel geçişte timer'i sıfırla
+  };
+
+  // resetKey değişince eski interval temizlenip yeni 5 saniyelik sayac başlıyor
   useEffect(() => {
     const interval = setInterval(goNext, 5000);
-    return () => clearInterval(interval); // temizleme: component unmount olunca interval durur
-  }, [goNext]);
+    return () => clearInterval(interval);
+  }, [goNext, resetKey]);
 
   const slide = bannerSlides[currentIndex];
 
@@ -75,11 +82,8 @@ const HeroBanner = () => {
             backgroundImage: `url(${s.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center 30%',
-            transition: 'opacity 0.9s ease-in-out',
             opacity: idx === currentIndex ? 1 : 0,
-            // Fotoğrafın kendisini daha canlı ve parlak yap
             filter: 'brightness(1.15) saturate(1.3) contrast(1.05)',
-            // Ken Burns zoom yavaş (6s), opacity geçişi hızlı (0.8s) - ayrı ayrı tanımlandı
             transform: idx === currentIndex ? 'scale(1.06)' : 'scale(1)',
             transition: 'opacity 0.8s ease-in-out, transform 6s ease-out',
           }}
@@ -148,7 +152,7 @@ const HeroBanner = () => {
         <ArrowBackIosNewIcon />
       </IconButton>
       <IconButton
-        onClick={goNext}
+        onClick={goNextManual}
         sx={{
           position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', zIndex: 3,
           color: 'white', backgroundColor: 'rgba(0,0,0,0.35)',
